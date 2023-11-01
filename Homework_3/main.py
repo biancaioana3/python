@@ -1,136 +1,127 @@
-class Stack:
-    def __init__(self):
-        self.items = []
+def list_operations(a, b):
+    intersection = set(a) & set(b)
+    union = set(a) | set(b)
+    diff_a_b = set(a) - set(b)
+    diff_b_a = set(b) - set(a)
+    return [intersection, union, diff_a_b, diff_b_a]
 
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        if not self.is_empty():
-            return self.items.pop()
+def char_count(text):
+    char_dict = {}
+    for char in text:
+        if char in char_dict:
+            char_dict[char] += 1
         else:
-            return None
+            char_dict[char] = 1
+    return char_dict
 
-    def peek(self):
-        if not self.is_empty():
-            return self.items[-1]
-        else:
-            return None
+def compare_dicts(dict1, dict2):
+    if isinstance(dict1, dict) and isinstance(dict2, dict):
+        if len(dict1) != len(dict2):
+            return False
+        for key, value in dict1.items():
+            if key not in dict2 or not compare_dicts(value, dict2[key]):
+                return False
+        return True
+    elif isinstance(dict1, (list, set, tuple)) and isinstance(dict2, (list, set, tuple)):
+        if len(dict1) != len(dict2):
+            return False
+        for item1, item2 in zip(dict1, dict2):
+            if not compare_dicts(item1, item2):
+                return False
+        return True
+    else:
+        return dict1 == dict2
 
-    def is_empty(self):
-        return len(self.items) == 0
+def build_xml_element(tag, content, **kwargs):
+    attributes = " ".join([f'{key}="{value}"' for key, value in kwargs.items()])
+    return f'<{tag} {attributes}>{content}</{tag}>'
 
+def validate_dict(rules, dictionary):
+    for key, prefix, middle, suffix in rules:
+        if key in dictionary:
+            value = dictionary[key]
+            if not value.startswith(prefix) or not value.endswith(suffix) or middle not in value:
+                return False
+    return True
 
-class Queue:
-    def __init__(self):
-        self.items = []
+def count_unique_and_duplicate_elements(lst):
+    unique_set = set(lst)
+    unique_count = len(unique_set)
+    duplicate_count = len(lst) - unique_count
+    return unique_count, duplicate_count
 
-    def push(self, item):
-        self.items.append(item)
+def set_operations(*sets):
+    operations = {
+        "|": lambda a, b: a | b,   # Union
+        "&": lambda a, b: a & b,   # Intersection
+        "-": lambda a, b: a - b,   # Difference A - B
+    }
 
-    def pop(self):
-        if not self.is_empty():
-            return self.items.pop(0)
-        else:
-            return None
-
-    def peek(self):
-        if not self.is_empty():
-            return self.items[0]
-        else:
-            return None
-
-    def is_empty(self):
-        return len(self.items) == 0
-
-
-class Matrix:
-    def __init__(self, n, m):
-        self.n = n
-        self.m = m
-        self.data = [[0] * m for _ in range(n)]
-
-    def get(self, i, j):
-        if 0 <= i < self.n and 0 <= j < self.m:
-            return self.data[i][j]
-        else:
-            return None
-
-    def set(self, i, j, value):
-        if 0 <= i < self.n and 0 <= j < self.m:
-            self.data[i][j] = value
-
-    def transpose(self):
-        transposed = [[0] * self.n for _ in range(self.m)]
-        for i in range(self.n):
-            for j in range(self.m):
-                transposed[j][i] = self.data[i][j]
-        return transposed
-
-    def matrix_multiply(self, other_matrix):
-        if self.m != other_matrix.n:
-            return None
-        result = [[0] * other_matrix.m for _ in range(self.n)]
-        for i in range(self.n):
-            for j in range(other_matrix.m):
-                for k in range(self.m):
-                    result[i][j] += self.data[i][k] * other_matrix.data[k][j]
-        return result
-
-    def apply_transform(self, transform_func):
-        for i in range(self.n):
-            for j in range(self.m):
-                self.data[i][j] = transform_func(self.data[i][j])
+    result_dict = {}
+    for i in range(len(sets)):
+        for j in range(i + 1, len(sets)):
+            set1 = sets[i]
+            set2 = sets[j]
+            for op, operation_func in operations.items():
+                key = f"{set1} {op} {set2}"
+                result_dict[key] = operation_func(set1, set2)
+    return result_dict
 
 
-# Utilizare Stack
-stack = Stack()
-stack.push(1)
-stack.push(2)
-stack.push(3)
-print(stack.pop())
-print(stack.peek())
+def loop(mapping):
+    visited = set()
+    current = mapping.get("start")
+    result = []
+    while current:
+        if current in visited:
+            break
+        result.append(current)
+        visited.add(current)
+        current = mapping.get(current)
+    return result
 
-# Utilizare Queue
-queue = Queue()
-queue.push("apple")
-queue.push("banana")
-queue.push("cherry")
-print(queue.pop())
-print(queue.peek())
+def count_positional_args(*args, **kwargs):
+    return sum(1 for arg in args if arg in kwargs.values())
 
-# Utilizare Matrix
-matrix = Matrix(3, 3)
-matrix.set(0, 0, 1)
-matrix.set(0, 1, 2)
-matrix.set(0, 2, 3)
-matrix.set(1, 0, 4)
-matrix.set(1, 1, 5)
-matrix.set(1, 2, 6)
-matrix.set(2, 0, 7)
-matrix.set(2, 1, 8)
-matrix.set(2, 2, 9)
+list1 = [1, 2, 3, 4]
+list2 = [3, 4, 5, 6]
+result = list_operations(list1, list2)
+print(result)
 
-print(matrix.get(1, 1))
+text = "Ana has apples."
+char_counts = char_count(text)
+print(char_counts)
 
-# Transpusa matricei
-transposed_matrix = Matrix(matrix.m, matrix.n)
-transposed_matrix.data = matrix.transpose()
-print(transposed_matrix.data)
+dict1 = {"a": 1, "b": [2, 3]}
+dict2 = {"a": 1, "b": [2, 3]}
+result = compare_dicts(dict1, dict2)
+print(result)
 
-# Înmulțirea a două matrici
-matrix2 = Matrix(3, 2)
-matrix2.set(0, 0, 1)
-matrix2.set(0, 1, 2)
-matrix2.set(1, 0, 3)
-matrix2.set(1, 1, 4)
-matrix2.set(2, 0, 5)
-matrix2.set(2, 1, 6)
+dict1 = {"a": 1, "b": [2, 3]}
+dict2 = {"a": 1, "b": [2, 3]}
+result = compare_dicts(dict1, dict2)
+print(result)
 
-result_matrix = Matrix(matrix.n, matrix2.m)
-result_matrix.data = matrix.matrix_multiply(matrix2)
-print(result_matrix.data)
+xml_element = build_xml_element("a", "Hello there", href="http://python.org", _class="my-link", id="someid")
+print(xml_element)
 
-# Aplicarea unei transformări asupra matricei
-matrix.apply_transform(lambda x: x * 2)
-print(matrix.data)
+rules = {("key1", "", "inside", ""), ("key2", "start", "middle", "winter")}
+dictionary = {"key1": "come inside, it's too cold out", "key3": "this is not valid"}
+result = validate_dict(rules, dictionary)
+print(result)
+
+my_list = [1, 2, 2, 3, 4, 4, 5]
+unique_count, duplicate_count = count_unique_and_duplicate_elements(my_list)
+print(f"Unique count: {unique_count}, Duplicate count: {duplicate_count}")
+
+set1 = {1, 2}
+set2 = {2, 3}
+result = set_operations(set1, set2)
+print(result)
+
+mapping = {'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}
+result = loop(mapping)
+print(result)
+
+result = count_positional_args(1, 2, 3, 4, x=1, y=2, z=3, w=5)
+print(result)
