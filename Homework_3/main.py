@@ -5,6 +5,7 @@ def list_operations(a, b):
     diff_b_a = set(b) - set(a)
     return [intersection, union, diff_a_b, diff_b_a]
 
+
 def char_count(text):
     char_dict = {}
     for char in text:
@@ -13,6 +14,7 @@ def char_count(text):
         else:
             char_dict[char] = 1
     return char_dict
+
 
 def compare_dicts(dict1, dict2):
     if isinstance(dict1, dict) and isinstance(dict2, dict):
@@ -32,9 +34,11 @@ def compare_dicts(dict1, dict2):
     else:
         return dict1 == dict2
 
+
 def build_xml_element(tag, content, **kwargs):
     attributes = " ".join([f'{key}="{value}"' for key, value in kwargs.items()])
     return f'<{tag} {attributes}>{content}</{tag}>'
+
 
 def validate_dict(rules, dictionary):
     for key, prefix, middle, suffix in rules:
@@ -44,17 +48,19 @@ def validate_dict(rules, dictionary):
                 return False
     return True
 
+
 def count_unique_and_duplicate_elements(lst):
     unique_set = set(lst)
     unique_count = len(unique_set)
     duplicate_count = len(lst) - unique_count
     return unique_count, duplicate_count
 
+
 def set_operations(*sets):
     operations = {
-        "|": lambda a, b: a | b,   # Union
-        "&": lambda a, b: a & b,   # Intersection
-        "-": lambda a, b: a - b,   # Difference A - B
+        "|": lambda a, b: a | b,  # Union
+        "&": lambda a, b: a & b,  # Intersection
+        "-": lambda a, b: a - b,  # Difference A - B
     }
 
     result_dict = {}
@@ -80,8 +86,10 @@ def loop(mapping):
         current = mapping.get(current)
     return result
 
+
 def count_positional_args(*args, **kwargs):
     return sum(1 for arg in args if arg in kwargs.values())
+
 
 list1 = [1, 2, 3, 4]
 list2 = [3, 4, 5, 6]

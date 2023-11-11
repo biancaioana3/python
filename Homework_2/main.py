@@ -47,7 +47,7 @@ def compose(notes, moves, start):
     return song
 
 
-#   5. Write a function that receives as parameter a matrix and will return the matrix obtained by replacing all the elements under the main.py diagonal with 0 (zero).
+#   5. Write a function that receives as parameter a matrix and will return the matrix obtained by replacing all the elements under the ex_1.py diagonal with 0 (zero).
 def replace_below_diagonal(matrix):
     for i in range(len(matrix)):
         for j in range(i + 1, len(matrix[i])):
