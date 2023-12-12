@@ -1,6 +1,7 @@
 import os
 import filecmp
 
+
 def find_duplicate_files(folder):
     # Dicționar pentru a stoca fișierele duplicate
     duplicates = {}
@@ -21,6 +22,7 @@ def find_duplicate_files(folder):
     # Returnează doar fișierele care au duplicate
     return {key: value for key, value in duplicates.items() if len(value) > 1}
 
+
 def display_duplicate_files(duplicates):
     print("The following files are identical:")
     for index, (key, value) in enumerate(duplicates.items(), start=1):
@@ -28,6 +30,7 @@ def display_duplicate_files(duplicates):
         for i, file_path in enumerate(value[1:], start=2):
             print(f"   {i}. {file_path}")
     print()
+
 
 def remove_duplicates(duplicates):
     for key, value in duplicates.items():
@@ -41,6 +44,7 @@ def remove_duplicates(duplicates):
                 print(f"Removed: {file_path}")
             else:
                 print(f"Kept: {file_path}")
+
 
 if __name__ == "__main__":
     import sys
